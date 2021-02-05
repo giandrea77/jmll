@@ -24,9 +24,30 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE. */
 
+import io.jmll.core.integer.JmllCore;
+
+import java.util.List;
+import java.util.Random;
+
 /**
  * @author : andrea
  * @created : 2021, Feb
  */
 public class JmllMatrix {
+
+    public static Integer[][] generateIntegerMatrix(int rows, int columns) {
+
+        Integer[][] matrix = new Integer[rows][columns];
+        JmllCore<Integer> jmllCore = new JmllCore<>();
+
+        for ( int index = 0; index < rows; index++ ) {
+            for ( int innerIndex = 0; innerIndex < columns; innerIndex++ ) {
+                matrix[index][innerIndex] = jmllCore.generateNumber(Random::nextInt);
+            }
+        }
+
+        return matrix;
+
+    }
+
 }

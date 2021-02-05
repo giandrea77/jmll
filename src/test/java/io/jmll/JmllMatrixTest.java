@@ -1,4 +1,9 @@
-package io.jmll.core.integer;
+package io.jmll;
+
+import com.google.gson.Gson;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /* MIT License
 -----------
@@ -25,44 +30,20 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE. */
 
-import java.util.List;
-import java.util.Random;
-import java.util.function.Function;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 /**
  * @author : Andrea Girardi
  * @created : Feb, 2021
  */
-public class JmllCore<T> {
+class JmllMatrixTest {
 
-    /**
-     * Generate a single number
-     *
-     * @param creator
-     * @return
-     */
-    public T generateNumber(Function<Random, T> creator) {
-        return creator.apply(new Random());
+    private final int row = 100;
+    private final int column = 100;
+
+    @Test
+    void generateIntegerMatrix() {
+
+        Integer[][] matrix = JmllMatrix.generateIntegerMatrix(row, column);
+        System.out.println(new Gson().toJson(matrix));
+
     }
-
-
-
-    /**
-     * Generate a list of {@code size} {@code clazz} random elements
-     * @param size
-     * @param <T>
-     * @return
-     */
-    public static <T> T[] generateArray(Function<Random, T> creator, Supplier<T[]> arrayCreator, int size) {
-        List<T> generated  = (List<T>) Stream.generate(() -> creator.apply(new Random())).limit(size).collect(Collectors.toList());
-        return generated.toArray(arrayCreator.get());
-    }
-
-    public static <T> List<T> generateList(Function<Random, T> creator, int size) {
-        return  (List<T>) Stream.generate(() -> creator.apply(new Random())).limit(size).collect(Collectors.toList());
-    }
-
 }

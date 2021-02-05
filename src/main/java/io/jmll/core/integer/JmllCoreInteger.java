@@ -1,4 +1,4 @@
-package io.jmll;
+package io.jmll.core.integer;
 /* MIT License
 -----------
 
@@ -24,17 +24,49 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE. */
 
+import java.util.Arrays;
+import java.util.Random;
+
 /**
- *
  * @author : Andrea Girardi
  * @created : Feb, 2021
  */
-public interface JmllCore<T extends Number, P extends Number> {
+public abstract class JmllCoreInteger {
 
-    public T generateNumber();
+    /**
+     * Generate a single random number
+     *
+     * @return
+     */
+    public Integer generateNumber() {
+        return new Random().nextInt();
+    }
 
-    public T[] generateNumbers(P size);
+    /**
+     * Generate a list random {@code size} integers
+     *
+     * @param size
+     * @return
+     */
+    public Integer[] generateNumbers(Integer size) {
+        Random rand = new Random();
+        Integer[] array = new Integer[size];
+        Arrays.setAll(array, item -> rand.nextInt());
+        return array;
+    }
 
-    public T[] generateNumbers(P size, P max);
+    /**
+     * Generate a list random {@code size} integers with max number {@code max}
+     * @param size
+     * @param max
+     * @return
+     */
+    public Integer[] generateNumbers(Integer size, Integer max) {
+        return new Integer[0];
+    }
+
+    public Integer[] generateNumber(Integer size, Integer min, Integer max) {
+        return new Integer[0];
+    }
 
 }
