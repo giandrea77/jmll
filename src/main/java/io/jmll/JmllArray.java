@@ -25,13 +25,12 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE. */
 
-import io.jmll.core.integer.JmllCore;
+import io.jmll.core.JmllConstants;
+import io.jmll.core.JmllCore;
+import io.jmll.core.integer.JmllCoreInteger;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -48,50 +47,6 @@ import java.util.stream.Stream;
 public abstract class JmllArray {
 
     /**
-     * Generate a int random length array of random integers
-     *
-     * @return
-     */
-    public static Integer[] rndArrayOfIntegers() {
-        JmllCore<Integer> jmllCore = new JmllCore<>();
-        int randomSize = jmllCore.generateNumber(Random::nextInt);
-        return JmllCore.generateArray(Random::nextInt, () -> new Integer[randomSize], randomSize);
-    }
-
-    /**
-     * Generate a int random length array of random longs
-     *
-     * @return
-     */
-    public static Long[] rndArrayOfLongs() {
-        JmllCore<Integer> jmllCore = new JmllCore<>();
-        int randomSize = jmllCore.generateNumber(Random::nextInt);
-        return JmllCore.generateArray(Random::nextLong, () -> new Long[randomSize], randomSize);
-    }
-
-    /**
-     * Generate a int random length array of random doubles
-     *
-     * @return
-     */
-    public static Double[] rndArrayOfDouble() {
-        JmllCore<Integer> jmllCore = new JmllCore<>();
-        int randomSize = jmllCore.generateNumber(Random::nextInt);
-        return JmllCore.generateArray(Random::nextDouble, () -> new Double[randomSize], randomSize);
-    }
-
-    /**
-     * Generate a int random length array of random floats
-     *
-     * @return
-     */
-    public static Float[] rndArrayOfFloats() {
-        JmllCore<Integer> jmllCore = new JmllCore<>();
-        int randomSize = jmllCore.generateNumber(Random::nextInt);
-        return JmllCore.generateArray(Random::nextFloat, () -> new Float[randomSize], randomSize);
-    }
-
-    /**
      * Generate an array of int {@code size} integers
      *
      * @param size
@@ -99,6 +54,16 @@ public abstract class JmllArray {
      */
     public static Integer[] arrayOfIntegers(int size) {
         return JmllCore.generateArray(Random::nextInt, () -> new Integer[size], size);
+    }
+
+    /**
+     *
+     * @param size
+     * @param sign
+     * @return
+     */
+    public static Integer[] arrayOfIntegers(int size, JmllConstants.Sign sign) {
+        return JmllCoreInteger.generateArray(() -> new Integer[size], size, sign);
     }
 
     /**

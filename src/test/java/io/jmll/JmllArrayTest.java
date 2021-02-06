@@ -25,11 +25,7 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE. */
 
-import io.jmll.core.integer.JmllCore;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -45,10 +41,9 @@ public class JmllArrayTest {
     @Test
     void arrayOfIntegers() {
         assertEquals(ARRAY_SIZE, JmllArray.arrayOfIntegers(ARRAY_SIZE).length);
-    }
-
-    @Test
-    void testArrayOfIntegers() {
+        assertEquals(ARRAY_SIZE, JmllArray.arrayOfIntegers(ARRAY_SIZE, JmllConstants.Sign.POSITIVE).length);
+        assertEquals(ARRAY_SIZE, JmllArray.arrayOfIntegers(ARRAY_SIZE, JmllConstants.Sign.NEGATIVE).length);
+        assertEquals(ARRAY_SIZE, JmllArray.arrayOfIntegers(ARRAY_SIZE, JmllConstants.Sign.NEUTRAL).length);
         assertEquals(ARRAY_SIZE, JmllArray.arrayOfIntegers(ARRAY_SIZE, 10).length);
     }
 

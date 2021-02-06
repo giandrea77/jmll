@@ -1,8 +1,4 @@
-package io.jmll;
-
-import com.google.gson.Gson;
-import org.junit.jupiter.api.Test;
-
+package io.jmll.core;
 /* MIT License
 -----------
 
@@ -32,16 +28,30 @@ OTHER DEALINGS IN THE SOFTWARE. */
  * @author : Andrea Girardi
  * @created : Feb, 2021
  */
-class JmllMatrixTest {
+public class JmllConstants {
 
-    private final int row = 100;
-    private final int column = 100;
+    /**
+     * Sign enum
+     */
+    public enum Sign {
 
-    @Test
-    void generateIntegerMatrix() {
+        POSITIVE(1),
+        NEGATIVE(-1),
+        NEUTRAL(0);
 
-        Integer[][] matrix = JmllMatrix.generateIntegerMatrix(row, column);
-        System.out.println(new Gson().toJson(matrix));
+        private final int sign;
+
+        private Sign(int sign) {
+            this.sign = sign;
+        }
+
+        public int toInt() {
+            return sign;
+        }
 
     }
+
+    public static final int SIGN_POSITIVE = 1;
+    public static final int SIGN_NEGATIVE = -1;
+
 }

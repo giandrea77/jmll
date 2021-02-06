@@ -24,9 +24,10 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE. */
 
-import io.jmll.core.integer.JmllCore;
+import io.jmll.core.JmllConstants;
+import io.jmll.core.JmllCore;
+import io.jmll.core.integer.JmllCoreInteger;
 
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -35,15 +36,40 @@ import java.util.Random;
  */
 public class JmllMatrix {
 
+    /**
+     * Generate a Matrix [{@rows} x {@colums}] of integers
+     * @param rows
+     * @param columns
+     * @return
+     */
     public static Integer[][] generateIntegerMatrix(int rows, int columns) {
 
         Integer[][] matrix = new Integer[rows][columns];
         JmllCore<Integer> jmllCore = new JmllCore<>();
 
         for ( int index = 0; index < rows; index++ ) {
-            for ( int innerIndex = 0; innerIndex < columns; innerIndex++ ) {
-                matrix[index][innerIndex] = jmllCore.generateNumber(Random::nextInt);
-            }
+            matrix[index] = JmllCore.generateArray(Random::nextInt, () -> new Integer[columns], columns);
+        }
+
+        return matrix;
+
+    }
+
+    /**
+     * Generate a Matrix [{@rows} x {@colums}] of {@sign}integers with specific
+     *
+     * @param rows
+     * @param columns
+     * @param sign
+     * @return
+     */
+    public static Integer[][] generateIntegerMatrix(int rows, int columns, JmllConstants.Sign sign) {
+
+        Integer[][] matrix = new Integer[rows][columns];
+        JmllCore<Integer> jmllCore = new JmllCore<>();
+
+        for ( int index = 0; index < rows; index++ ) {
+            matrix[index] = JmllCoreInteger.generateArray(() -> new Integer[columns], columns, sign);
         }
 
         return matrix;

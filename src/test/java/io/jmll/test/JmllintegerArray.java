@@ -1,8 +1,4 @@
-package io.jmll;
-
-import com.google.gson.Gson;
-import org.junit.jupiter.api.Test;
-
+package io.jmll.test;
 /* MIT License
 -----------
 
@@ -28,20 +24,18 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE. */
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 /**
  * @author : Andrea Girardi
  * @created : Feb, 2021
  */
-class JmllMatrixTest {
+public class JmllintegerArray {
 
-    private final int row = 100;
-    private final int column = 100;
+    private final int ARRAY_SIZE = 100;
 
-    @Test
-    void generateIntegerMatrix() {
 
-        Integer[][] matrix = JmllMatrix.generateIntegerMatrix(row, column);
-        System.out.println(new Gson().toJson(matrix));
 
-    }
+
+
 }

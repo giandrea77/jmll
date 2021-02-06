@@ -24,49 +24,54 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE. */
 
-import java.util.Arrays;
+import io.jmll.core.JmllConstants;
+import io.jmll.core.JmllCore;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author : Andrea Girardi
  * @created : Feb, 2021
  */
-public abstract class JmllCoreInteger {
+public abstract class JmllCoreInteger extends JmllCore<Integer> {
 
     /**
-     * Generate a single random number
-     *
+     * Generate a list of integers with a specific sign
+     * @param arrayCreator
+     * @param size
+     * @param sign
      * @return
      */
-    public Integer generateNumber() {
-        return new Random().nextInt();
+    public static Integer[] generateArray(Supplier<Integer[]> arrayCreator, int size, JmllConstants.Sign sign) {
+
+        List<Integer> listOfArrays = generateList(Random::nextInt, size);
+        listOfArrays.stream().parallel().forEach(x ->  x = sign.equals(JmllConstants.Sign.NEUTRAL) ? x : Math.abs(x) * sign.toInt());
+        return listOfArrays.toArray(arrayCreator.get());
+
     }
 
     /**
-     * Generate a list random {@code size} integers
      *
+     * @param arrayCreator
      * @param size
-     * @return
-     */
-    public Integer[] generateNumbers(Integer size) {
-        Random rand = new Random();
-        Integer[] array = new Integer[size];
-        Arrays.setAll(array, item -> rand.nextInt());
-        return array;
-    }
-
-    /**
-     * Generate a list random {@code size} integers with max number {@code max}
-     * @param size
+     * @param min
      * @param max
+     * @param sign
      * @return
      */
-    public Integer[] generateNumbers(Integer size, Integer max) {
-        return new Integer[0];
+    public static Integer[] generateArray(Supplier<Integer[]> arrayCreator, int size, int min, int max, JmllConstants.Sign sign) {
+
+        Random rnd = new Random();
+        List<Integer> generate = Stream.generate(() -> rnd.nextInt()).limit(size).collect(Collectors.toCollection(() -> new ArrayList<>()));
+        generate.stream().parallel().forEach(x ->  x = sign.equals(JmllConstants.Sign.NEUTRAL) ? x : Math.abs(x) * sign.toInt());
+        return generate.toArray(arrayCreator.get());
+
     }
 
-    public Integer[] generateNumber(Integer size, Integer min, Integer max) {
-        return new Integer[0];
-    }
 
 }

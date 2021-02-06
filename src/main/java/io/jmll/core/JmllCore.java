@@ -1,4 +1,4 @@
-package io.jmll.core.integer;
+package io.jmll.core;
 
 /* MIT License
 -----------
@@ -25,6 +25,7 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE. */
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
@@ -33,13 +34,16 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
+ * Generate random numbers: https://dzone.com/articles/random-number-generation-in-java
+ *
+ *
  * @author : Andrea Girardi
  * @created : Feb, 2021
  */
 public class JmllCore<T> {
 
     /**
-     * Generate a single number
+     * Generate a single number provinding the function
      *
      * @param creator
      * @return
@@ -48,10 +52,8 @@ public class JmllCore<T> {
         return creator.apply(new Random());
     }
 
-
-
     /**
-     * Generate a list of {@code size} {@code clazz} random elements
+     * Generate an array of {@code size} random elements
      * @param size
      * @param <T>
      * @return
@@ -61,6 +63,13 @@ public class JmllCore<T> {
         return generated.toArray(arrayCreator.get());
     }
 
+    /**
+     * Generate a list of {@code size} random elements
+     * @param creator
+     * @param size
+     * @param <T>
+     * @return
+     */
     public static <T> List<T> generateList(Function<Random, T> creator, int size) {
         return  (List<T>) Stream.generate(() -> creator.apply(new Random())).limit(size).collect(Collectors.toList());
     }
