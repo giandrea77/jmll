@@ -27,9 +27,7 @@ OTHER DEALINGS IN THE SOFTWARE. */
 import io.jmll.core.JmllConstants;
 import io.jmll.core.JmllCore;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -49,8 +47,7 @@ public abstract class JmllCoreInteger extends JmllCore<Integer> {
      */
     public static Integer[] generateArray(Supplier<Integer[]> arrayCreator, int size, JmllConstants.Sign sign) {
 
-        List<Integer> listOfArrays = generateList(Random::nextInt, size);
-        listOfArrays.stream().parallel().forEach(x ->  x = sign.equals(JmllConstants.Sign.NEUTRAL) ? x : Math.abs(x) * sign.toInt());
+        List<Integer> listOfArrays = generateList(Random::nextInt, size).stream().map(item -> ( sign.toInt() == JmllConstants.Sign.NEUTRAL.toInt() ? item : Math.abs(item) * sign.toInt() )).collect(Collectors.toList());
         return listOfArrays.toArray(arrayCreator.get());
 
     }
@@ -67,9 +64,34 @@ public abstract class JmllCoreInteger extends JmllCore<Integer> {
     public static Integer[] generateArray(Supplier<Integer[]> arrayCreator, int size, int min, int max, JmllConstants.Sign sign) {
 
         Random rnd = new Random();
-        List<Integer> generate = Stream.generate(() -> rnd.nextInt()).limit(size).collect(Collectors.toCollection(() -> new ArrayList<>()));
-        generate.stream().parallel().forEach(x ->  x = sign.equals(JmllConstants.Sign.NEUTRAL) ? x : Math.abs(x) * sign.toInt());
+        List<Integer> generate = Stream.generate(() -> rnd.nextInt(max - min) + min)
+                .limit(size)
+                .map(item -> ( sign.toInt() == JmllConstants.Sign.NEUTRAL.toInt() ? item : Math.abs(item) * sign.toInt() ))
+                .collect(Collectors.toCollection(() -> new ArrayList<>()));
         return generate.toArray(arrayCreator.get());
+
+    }
+
+    /**
+     * https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.describe.html
+     * Array = [4 5 8 5 6 4 9 2 4 3 6]
+     * Measures of Dispersion
+     * Minimum = 2
+     * Maximum = 9
+     * Range = 7
+     * Varience = 3.90082644628
+     * Standard Deviation = 1.9750509984
+     * @return
+     */
+    public static HashMap<String, Number> describe(Integer[] array) {
+
+        HashMap<String, Number> results = new HashMap<>();
+        Double min = 0.0, max = 0.0, range = 0.0, variance = 0.0, standardDeviation = 0.0, mean = 0.0;
+
+        Integer sum = Arrays.stream(array).mapToInt(Integer::intValue).sum();
+        results.put("mean", Double.valueOf(sum) / array.length);
+
+        return results;
 
     }
 
