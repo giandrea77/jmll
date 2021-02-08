@@ -49,6 +49,16 @@ public class JmllConstants {
             return sign;
         }
 
+        public static Sign checkSign(Integer value) {
+
+            if ( value >= 0 ) {
+                return POSITIVE;
+            } else {
+                return NEGATIVE;
+            }
+
+        }
+
     }
 
     public static final int SIGN_POSITIVE = 1;

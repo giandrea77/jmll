@@ -7,6 +7,12 @@ import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
+import javax.swing.*;
+import java.util.Arrays;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 /* MIT License
 -----------
 
@@ -40,15 +46,43 @@ class JmllMatrixTest {
 
     private static Logger logger = LogManager.getLogger(JmllMatrixTest.class);
 
-    private final int row = 5;
-    private final int column = 5;
+    private final int row = 1000;
+    private final int column = 1000;
+
+    /**
+     * Private method used to check the signs of the single values
+     *
+     * @param matrix
+     * @param row
+     * @param column
+     * @param sign
+     * @return
+     */
+    private boolean checkMatrix(Integer[][] matrix, int row, int column, JmllConstants.Sign sign) {
+
+        for ( int index = 0; index < row; index++ ) {
+
+            // Integer found = Arrays.asList(matrix[index]).stream().filter(item ->  JmllConstants.Sign.checkSign(item) == sign).findAny().orElse(0);
+
+            for ( int innerIndex = 0; innerIndex < column; innerIndex++ ) {
+                if ( JmllConstants.Sign.checkSign(matrix[index][innerIndex]) != sign ) {
+                    return false;
+                }
+            }
+
+        }
+
+        return true;
+
+    }
+
 
     @Test
     @Order(0)
     void generateIntegerMatrix() {
 
         Integer[][] matrix = JmllMatrix.generateIntegerMatrix(row, column);
-        logger.info("Matrix: " + JmllMatrix.prettifyMatrix(matrix));
+        logger.trace("Matrix: " + JmllMatrix.prettifyMatrix(matrix));
     }
 
     @Test
@@ -56,7 +90,9 @@ class JmllMatrixTest {
     void generatePositiveIntegerMatrix() {
 
         Integer[][] matrixPositive = JmllMatrix.generateIntegerMatrix(row, column, JmllConstants.Sign.POSITIVE);
-        logger.info("matrixPositive: " + JmllMatrix.prettifyMatrix(matrixPositive));
+        logger.trace("matrixPositive: " + JmllMatrix.prettifyMatrix(matrixPositive));
+
+        assertTrue(checkMatrix(matrixPositive, row, column, JmllConstants.Sign.POSITIVE));
 
     }
 
@@ -65,7 +101,9 @@ class JmllMatrixTest {
     void generateNegativeIntegerMatrix() {
 
         Integer[][] matrixNegative = JmllMatrix.generateIntegerMatrix(row, column, JmllConstants.Sign.NEGATIVE);
-        logger.info("matrixNegative: " + JmllMatrix.prettifyMatrix(matrixNegative));
+        logger.trace("matrixNegative: " + JmllMatrix.prettifyMatrix(matrixNegative));
+
+        assertTrue(true == checkMatrix(matrixNegative, row, column, JmllConstants.Sign.NEGATIVE));
 
     }
 
@@ -74,7 +112,7 @@ class JmllMatrixTest {
     void generateNeutralIntegerMatrixMinMax() {
 
         Integer[][] matrixMinMax = JmllMatrix.generateIntegerMatrix(row, column, JmllConstants.Sign.NEUTRAL, 100, 1000);
-        logger.info("matrixMinMax: " + JmllMatrix.prettifyMatrix(matrixMinMax));
+        logger.trace("matrixMinMax: " + JmllMatrix.prettifyMatrix(matrixMinMax));
 
     }
 
@@ -83,9 +121,9 @@ class JmllMatrixTest {
     void descriptionOfNeutralIntegerMatrixMinMax() {
 
         Integer[][] matrixMinMax = JmllMatrix.generateIntegerMatrix(row, column, JmllConstants.Sign.NEUTRAL, 100, 1000);
-        logger.info("matrixMinMax: " + JmllMatrix.prettifyMatrix(matrixMinMax));
+        logger.trace("matrixMinMax: " + JmllMatrix.prettifyMatrix(matrixMinMax));
 
-        logger.info("description: " + new Gson().toJson(JmllMatrix.describe(matrixMinMax, 0)));
+        logger.trace("description: " + new Gson().toJson(JmllMatrix.describe(matrixMinMax, 0)));
 
     }
 
