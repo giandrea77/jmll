@@ -27,6 +27,7 @@ OTHER DEALINGS IN THE SOFTWARE. */
 
 import io.jmll.core.JmllConstants;
 import io.jmll.core.JmllCore;
+import io.jmll.core.types.JmllCoreDouble;
 import io.jmll.core.types.JmllCoreInteger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,7 +41,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class JmllArrayTest {
 
-    private final int ARRAY_SIZE = 10000000;
+    private final int ARRAY_SIZE = 100;
     private Integer randomNumber;
 
     private static Logger logger = LogManager.getLogger(JmllArrayTest.class);
@@ -55,9 +56,19 @@ public class JmllArrayTest {
         assertEquals(ARRAY_SIZE, jmllCore.generateArray(ARRAY_SIZE, 0, 10, JmllConstants.Sign.POSITIVE).length);
     }
 
+    @Test
+    void arrayOfDoubles() {
+        JmllCore<Double> jmllCore = new JmllCoreDouble();
+        assertEquals(ARRAY_SIZE, jmllCore.generateArray(ARRAY_SIZE).length);
+        assertEquals(ARRAY_SIZE, jmllCore.generateArray(ARRAY_SIZE, JmllConstants.Sign.POSITIVE).length);
+        assertEquals(ARRAY_SIZE, jmllCore.generateArray(ARRAY_SIZE, JmllConstants.Sign.NEGATIVE).length);
+        assertEquals(ARRAY_SIZE, jmllCore.generateArray(ARRAY_SIZE, JmllConstants.Sign.NEUTRAL).length);
+        assertEquals(ARRAY_SIZE, jmllCore.generateArray(ARRAY_SIZE, 0D, 10D, JmllConstants.Sign.POSITIVE).length);
+    }
+
 
     @Test
-    void describeArray() {
+    void describeIntegerArray() {
 
         JmllCore<Integer> jmllCore = new JmllCoreInteger();
         Integer[] array = jmllCore.generateArray(10, -10, 10, JmllConstants.Sign.NEUTRAL);
@@ -66,5 +77,14 @@ public class JmllArrayTest {
 
     }
 
+    @Test
+    void describeDoubleArray() {
+
+        JmllCore<Double> jmllCore = new JmllCoreDouble();
+        Double[] array = jmllCore.generateArray(10, -10D, 10D, JmllConstants.Sign.NEUTRAL);
+        logger.debug(jmllCore.prettify(array));
+        logger.debug(jmllCore.describe(array));
+
+    }
 
 }

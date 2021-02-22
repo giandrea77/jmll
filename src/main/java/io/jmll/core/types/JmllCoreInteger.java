@@ -38,16 +38,20 @@ import java.util.stream.Stream;
  */
 public class JmllCoreInteger extends JmllCore<Integer> {
 
-
+    /**
+     * @param size output array dimension
+     * @return array of random integer
+     */
     @Override
     public Integer[] generateArray(int size) {
         return generateArray(size, JmllConstants.Sign.NEUTRAL);
     }
+
     /**
      *
-     * @param size
-     * @param sign
-     * @return
+     * @param size output array dimension
+     * @param sign Expected sign of random numbers
+     * @return array of random integer
      */
     @Override
     public Integer[] generateArray(int size, JmllConstants.Sign sign) {
@@ -170,7 +174,7 @@ public class JmllCoreInteger extends JmllCore<Integer> {
      * @return
      */
     @Override
-    public Integer[][] generateMatrix(int rows, int columns, JmllConstants.Sign sign, int min, int max) {
+    public Integer[][] generateMatrix(int rows, int columns, JmllConstants.Sign sign, Integer min, Integer max) {
 
         Integer[][] matrix = new Integer[rows][columns];
 

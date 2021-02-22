@@ -90,7 +90,7 @@ public abstract class JmllCore<T extends Number> {
 
     public abstract T[][] generateMatrix(int rows, int columns, JmllConstants.Sign sign);
 
-    public abstract T[][] generateMatrix(int rows, int columns, JmllConstants.Sign sign, int min, int max);
+    public abstract T[][] generateMatrix(int rows, int columns, JmllConstants.Sign sign, T min, T max);
 
     public abstract String prettify(T[] array);
 
