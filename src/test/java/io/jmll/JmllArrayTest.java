@@ -26,6 +26,10 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE. */
 
 import io.jmll.core.JmllConstants;
+import io.jmll.core.JmllCore;
+import io.jmll.core.types.JmllCoreInteger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,48 +43,28 @@ public class JmllArrayTest {
     private final int ARRAY_SIZE = 10000000;
     private Integer randomNumber;
 
+    private static Logger logger = LogManager.getLogger(JmllArrayTest.class);
+
     @Test
     void arrayOfIntegers() {
-        assertEquals(ARRAY_SIZE, JmllArray.arrayOfIntegers(ARRAY_SIZE).length);
-        assertEquals(ARRAY_SIZE, JmllArray.arrayOfIntegers(ARRAY_SIZE, JmllConstants.Sign.POSITIVE).length);
-        assertEquals(ARRAY_SIZE, JmllArray.arrayOfIntegers(ARRAY_SIZE, JmllConstants.Sign.NEGATIVE).length);
-        assertEquals(ARRAY_SIZE, JmllArray.arrayOfIntegers(ARRAY_SIZE, JmllConstants.Sign.NEUTRAL).length);
-        assertEquals(ARRAY_SIZE, JmllArray.arrayOfIntegers(ARRAY_SIZE, 10).length);
+        JmllCore<Integer> jmllCore = new JmllCoreInteger();
+        assertEquals(ARRAY_SIZE, jmllCore.generateArray(ARRAY_SIZE).length);
+        assertEquals(ARRAY_SIZE, jmllCore.generateArray(ARRAY_SIZE, JmllConstants.Sign.POSITIVE).length);
+        assertEquals(ARRAY_SIZE, jmllCore.generateArray(ARRAY_SIZE, JmllConstants.Sign.NEGATIVE).length);
+        assertEquals(ARRAY_SIZE, jmllCore.generateArray(ARRAY_SIZE, JmllConstants.Sign.NEUTRAL).length);
+        assertEquals(ARRAY_SIZE, jmllCore.generateArray(ARRAY_SIZE, 0, 10, JmllConstants.Sign.POSITIVE).length);
     }
 
-    @Test
-    void arrayOfLongs() {
-        assertEquals(ARRAY_SIZE, JmllArray.arrayOfLongs(ARRAY_SIZE).length);
-    }
 
     @Test
-    void testArrayOfLongs() {
-        assertEquals(ARRAY_SIZE, JmllArray.arrayOfLongs(ARRAY_SIZE, 10L).length);
+    void describeArray() {
+
+        JmllCore<Integer> jmllCore = new JmllCoreInteger();
+        Integer[] array = jmllCore.generateArray(10, -10, 10, JmllConstants.Sign.NEUTRAL);
+        logger.debug(jmllCore.prettify(array));
+        logger.debug(jmllCore.describe(array));
+
     }
 
-    @Test
-    void arrayOfDouble() {
-        assertEquals(ARRAY_SIZE, JmllArray.arrayOfDouble(ARRAY_SIZE).length);
-    }
-
-    @Test
-    void testArrayOfDouble() {
-        assertEquals(ARRAY_SIZE, JmllArray.arrayOfDouble(ARRAY_SIZE, Double.valueOf(10)).length);
-    }
-
-    @Test
-    void arrayOfFloat() {
-        assertEquals(ARRAY_SIZE, JmllArray.arrayOfFloat(ARRAY_SIZE).length);
-    }
-
-    @Test
-    void testArrayOfFloat() {
-        assertEquals(ARRAY_SIZE, JmllArray.arrayOfFloat(ARRAY_SIZE, Float.valueOf(10)).length);
-    }
-
-    @Test
-    void arrayOfZeros() {
-        assertEquals(ARRAY_SIZE, JmllArray.arrayOfZeros(ARRAY_SIZE).length);
-    }
 
 }

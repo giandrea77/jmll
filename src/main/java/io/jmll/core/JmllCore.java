@@ -25,7 +25,8 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE. */
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
@@ -40,31 +41,33 @@ import java.util.stream.Stream;
  * @author : Andrea Girardi
  * @created : Feb, 2021
  */
-public class JmllCore<T> {
+public abstract class JmllCore<T extends Number> {
 
     /**
-     * Generate a single number provinding the function
+     * Generate a single number provinding the function. Used on class extension not public.
      *
      * @param creator
      * @return
      */
-    public T generateNumber(Function<Random, T> creator) {
+    protected T generateNumber(Function<Random, T> creator) {
         return creator.apply(new Random());
     }
 
     /**
-     * Generate an array of {@code size} random elements
+     * Generate an array of {@code size} random elements. Used on class extension not public.
+     *
      * @param size
      * @param <T>
      * @return
      */
-    public static <T> T[] generateArray(Function<Random, T> creator, Supplier<T[]> arrayCreator, int size) {
+    protected <T> T[] generateArray(Function<Random, T> creator, Supplier<T[]> arrayCreator, int size) {
         List<T> generated  = (List<T>) Stream.generate(() -> creator.apply(new Random())).limit(size).collect(Collectors.toList());
         return generated.toArray(arrayCreator.get());
     }
 
     /**
-     * Generate a list of {@code size} random elements
+     * Generate a list of {@code size} random elements. Used on class extension not public.
+     *
      * @param creator
      * @param size
      * @param <T>
@@ -73,5 +76,24 @@ public class JmllCore<T> {
     public static <T> List<T> generateList(Function<Random, T> creator, int size) {
         return  (List<T>) Stream.generate(() -> creator.apply(new Random())).limit(size).collect(Collectors.toList());
     }
+
+
+    public abstract T[] generateArray(int size);
+
+    public abstract T[] generateArray(int size, JmllConstants.Sign sign);
+
+    public abstract T[] generateArray(int size, T min, T max, JmllConstants.Sign sign);
+
+    public abstract HashMap<String, Number> describe(T[] array);
+
+    public abstract T[][] generateMatrix(int rows, int columns);
+
+    public abstract T[][] generateMatrix(int rows, int columns, JmllConstants.Sign sign);
+
+    public abstract T[][] generateMatrix(int rows, int columns, JmllConstants.Sign sign, int min, int max);
+
+    public abstract String prettify(T[] array);
+
+    public abstract String prettify(T[][] matrix);
 
 }

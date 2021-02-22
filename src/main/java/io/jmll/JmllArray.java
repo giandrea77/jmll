@@ -27,10 +27,12 @@ OTHER DEALINGS IN THE SOFTWARE. */
 
 import io.jmll.core.JmllConstants;
 import io.jmll.core.JmllCore;
-import io.jmll.core.integer.JmllCoreInteger;
+import io.jmll.core.types.JmllCoreInteger;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -52,9 +54,9 @@ public abstract class JmllArray {
      * @param size
      * @return
      */
-    public static Integer[] arrayOfIntegers(int size) {
-        return JmllCore.generateArray(Random::nextInt, () -> new Integer[size], size);
-    }
+//    public static Integer[] arrayOfIntegers(int size) {
+//        return JmllCore.generateArray(Random::nextInt, () -> new Integer[size], size);
+//    }
 
     /**
      *
@@ -62,9 +64,10 @@ public abstract class JmllArray {
      * @param sign
      * @return
      */
-    public static Integer[] arrayOfIntegers(int size, JmllConstants.Sign sign) {
-        return JmllCoreInteger.generateArray(() -> new Integer[size], size, sign);
-    }
+//    public static Integer[] arrayOfIntegers(int size, JmllConstants.Sign sign) {
+//        JmllCore<Integer> calculable = new JmllCoreInteger();
+//        return calculable.generateArray(() -> new Integer[size], size, sign);
+//    }
 
     /**
      * Generate an array of {@code size} integers
@@ -72,72 +75,95 @@ public abstract class JmllArray {
      * @param size
      * @return
      */
-    public static Integer[] arrayOfIntegers(int size, Integer MaxValue) {
-        return JmllCore.generateArray(Random::nextInt, () -> new Integer[size], size);
-    }
+//    public static Integer[] arrayOfIntegers(int size, Integer MaxValue) {
+//        return JmllCore.generateArray(Random::nextInt, () -> new Integer[size], size);
+//    }
 
     /**
      *
      * @param size
      * @return
      */
-    public static Long[] arrayOfLongs(int size) {
-        return JmllCore.generateArray(Random::nextLong, () -> new Long[size], size);
-    }
+//    public static Long[] arrayOfLongs(int size) {
+//        return JmllCore.generateArray(Random::nextLong, () -> new Long[size], size);
+//    }
 
     /**
      *
      * @param size
      * @return
      */
-    public static Long[] arrayOfLongs(int size, Long maxValue) {
-        return JmllCore.generateArray(Random::nextLong, () -> new Long[size], size);
-    }
+//    public static Long[] arrayOfLongs(int size, Long maxValue) {
+//        return JmllCore.generateArray(Random::nextLong, () -> new Long[size], size);
+//    }
 
     /**
      *
      * @param size
      * @return
      */
-    public static Double[] arrayOfDouble(int size) {
-        return JmllCore.generateArray(Random::nextDouble, () -> new Double[size], size);
-    }
+//    public static Double[] arrayOfDouble(int size) {
+//        return JmllCore.generateArray(Random::nextDouble, () -> new Double[size], size);
+//    }
 
     /**
      *
      * @param size
      * @return
      */
-    public static Double[] arrayOfDouble(int size, Double maxValue) {
-        return JmllCore.generateArray(Random::nextDouble, () -> new Double[size], size);
-    }
+//    public static Double[] arrayOfDouble(int size, Double maxValue) {
+//        return JmllCore.generateArray(Random::nextDouble, () -> new Double[size], size);
+//    }
 
     /**
      *
      * @param size
      * @return
      */
-    public static Float[] arrayOfFloat(int size) {
-        return JmllCore.generateArray(Random::nextFloat, () -> new Float[size], size);
-    }
+//    public static Float[] arrayOfFloat(int size) {
+//        return JmllCore.generateArray(Random::nextFloat, () -> new Float[size], size);
+//    }
 
     /**
      *
      * @param size
      * @return
      */
-    public static Float[] arrayOfFloat(int size, Float maxValue) {
-        return JmllCore.generateArray(Random::nextFloat, () -> new Float[size], size);
-    }
+//    public static Float[] arrayOfFloat(int size, Float maxValue) {
+//        return JmllCore.generateArray(Random::nextFloat, () -> new Float[size], size);
+//    }
 
     /**
      *
      * @param size
      * @return
      */
-    public static Integer[] arrayOfZeros(int size) {
-        List<Integer> generated  = Stream.generate(() -> 0).limit(size).collect(Collectors.toList());
-        return generated.toArray(new Integer[size]);
-    }
+//    public static Integer[] arrayOfZeros(int size) {
+//        List<Integer> generated  = Stream.generate(() -> 0).limit(size).collect(Collectors.toList());
+//        return generated.toArray(new Integer[size]);
+//    }
+
+    /**
+     * Generates an array of UUID. A UUID represents a 128-bit value.
+     *
+     * @param size
+     * @return
+     */
+//    public static UUID[] arrayOfUUID(int size) {
+//        List<UUID> generated = Stream.generate(UUID::randomUUID).limit(size).collect(Collectors.toList());
+//        return generated.toArray(new UUID[size]);
+//    }
+
+    /**
+     * Prettify an array
+     *
+     *
+     * @param array
+     * @return
+     */
+//    public static String prettify(Integer[] array) {
+//        StringBuilder sb = new StringBuilder().append("\n");
+//        return Arrays.asList(array).stream().map(String::valueOf).collect(Collectors.joining("\t"));
+//    }
 
 }

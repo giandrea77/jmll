@@ -2,15 +2,15 @@ package io.jmll;
 
 import com.google.gson.Gson;
 import io.jmll.core.JmllConstants;
+import io.jmll.core.JmllCore;
+import io.jmll.core.types.JmllCoreInteger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
-import javax.swing.*;
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /* MIT License
@@ -62,7 +62,7 @@ class JmllMatrixTest {
 
         for ( int index = 0; index < row; index++ ) {
 
-            // Integer found = Arrays.asList(matrix[index]).stream().filter(item ->  JmllConstants.Sign.checkSign(item) == sign).findAny().orElse(0);
+            Integer found = Arrays.asList(matrix[index]).stream().filter(item ->  JmllConstants.Sign.checkSign(item) == sign).findAny().orElse(0);
 
             for ( int innerIndex = 0; innerIndex < column; innerIndex++ ) {
                 if ( JmllConstants.Sign.checkSign(matrix[index][innerIndex]) != sign ) {
@@ -80,17 +80,18 @@ class JmllMatrixTest {
     @Test
     @Order(0)
     void generateIntegerMatrix() {
-
-        Integer[][] matrix = JmllMatrix.generateIntegerMatrix(row, column);
-        logger.trace("Matrix: " + JmllMatrix.prettifyMatrix(matrix));
+        JmllCore<Integer> jmllCore = new JmllCoreInteger();
+        Integer[][] matrix = jmllCore.generateMatrix(row, column);
+        logger.trace("Matrix: " + jmllCore.prettify(matrix));
     }
 
     @Test
     @Order(2)
     void generatePositiveIntegerMatrix() {
 
-        Integer[][] matrixPositive = JmllMatrix.generateIntegerMatrix(row, column, JmllConstants.Sign.POSITIVE);
-        logger.trace("matrixPositive: " + JmllMatrix.prettifyMatrix(matrixPositive));
+        JmllCore<Integer> jmllCore = new JmllCoreInteger();
+        Integer[][] matrixPositive = jmllCore.generateMatrix(row, column, JmllConstants.Sign.POSITIVE);
+        logger.trace("matrixPositive: " + jmllCore.prettify(matrixPositive));
 
         assertTrue(checkMatrix(matrixPositive, row, column, JmllConstants.Sign.POSITIVE));
 
@@ -100,8 +101,9 @@ class JmllMatrixTest {
     @Order(3)
     void generateNegativeIntegerMatrix() {
 
-        Integer[][] matrixNegative = JmllMatrix.generateIntegerMatrix(row, column, JmllConstants.Sign.NEGATIVE);
-        logger.trace("matrixNegative: " + JmllMatrix.prettifyMatrix(matrixNegative));
+        JmllCore<Integer> jmllCore = new JmllCoreInteger();
+        Integer[][] matrixNegative = jmllCore.generateMatrix(row, column, JmllConstants.Sign.NEGATIVE);
+        logger.trace("matrixNegative: " + jmllCore.prettify(matrixNegative));
 
         assertTrue(true == checkMatrix(matrixNegative, row, column, JmllConstants.Sign.NEGATIVE));
 
@@ -111,8 +113,9 @@ class JmllMatrixTest {
     @Order(4)
     void generateNeutralIntegerMatrixMinMax() {
 
-        Integer[][] matrixMinMax = JmllMatrix.generateIntegerMatrix(row, column, JmllConstants.Sign.NEUTRAL, 100, 1000);
-        logger.trace("matrixMinMax: " + JmllMatrix.prettifyMatrix(matrixMinMax));
+        JmllCore<Integer> jmllCore = new JmllCoreInteger();
+        Integer[][] matrixMinMax = jmllCore.generateMatrix(row, column, JmllConstants.Sign.NEUTRAL, 100, 1000);
+        logger.trace("matrixMinMax: " + jmllCore.prettify(matrixMinMax));
 
     }
 
@@ -120,10 +123,13 @@ class JmllMatrixTest {
     @Order(5)
     void descriptionOfNeutralIntegerMatrixMinMax() {
 
-        Integer[][] matrixMinMax = JmllMatrix.generateIntegerMatrix(row, column, JmllConstants.Sign.NEUTRAL, 100, 1000);
-        logger.trace("matrixMinMax: " + JmllMatrix.prettifyMatrix(matrixMinMax));
+        JmllCore<Integer> jmllCore = new JmllCoreInteger();
+        Integer[][] matrixMinMax = jmllCore.generateMatrix(row, column, JmllConstants.Sign.NEUTRAL, 100, 1000);
+        logger.trace("matrixMinMax: " + jmllCore.prettify(matrixMinMax));
 
-        logger.trace("description: " + new Gson().toJson(JmllMatrix.describe(matrixMinMax, 0)));
+        logger.trace("description [0]: " + new Gson().toJson(jmllCore.describe(matrixMinMax[0])));
+        logger.trace("description [1]: " + new Gson().toJson(jmllCore.describe(matrixMinMax[1])));
+        logger.trace("description [2]: " + new Gson().toJson(jmllCore.describe(matrixMinMax[2])));
 
     }
 
