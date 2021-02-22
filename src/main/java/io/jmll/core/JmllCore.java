@@ -25,7 +25,6 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE. */
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -73,10 +72,9 @@ public abstract class JmllCore<T extends Number> {
      * @param <T>
      * @return
      */
-    public static <T> List<T> generateList(Function<Random, T> creator, int size) {
+    protected  <T> List<T> generateList(Function<Random, T> creator, int size) {
         return  (List<T>) Stream.generate(() -> creator.apply(new Random())).limit(size).collect(Collectors.toList());
     }
-
 
     public abstract T[] generateArray(int size);
 

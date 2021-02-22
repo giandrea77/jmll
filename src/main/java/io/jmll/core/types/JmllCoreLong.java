@@ -36,28 +36,19 @@ import java.util.stream.Stream;
  * @author : Andrea Girardi
  * @created : Feb, 2021
  */
-public class JmllCoreDouble extends JmllCore<Double> {
+public class JmllCoreLong extends JmllCore<Long> {
 
-    /**
-     * @param size output array dimension
-     * @return array of random integer
-     */
     @Override
-    public Double[] generateArray(int size) {
+    public Long[] generateArray(int size) {
         return generateArray(size, JmllConstants.Sign.NEUTRAL);
     }
 
-    /**
-     * @param size output array dimension
-     * @param sign Expected sign of random numbers
-     * @return array of random integer
-     */
     @Override
-    public Double[] generateArray(int size, JmllConstants.Sign sign) {
+    public Long[] generateArray(int size, JmllConstants.Sign sign) {
 
-        Supplier<Double[]> arrayCreator = () -> new Double[size];
+        Supplier<Long[]> arrayCreator = () -> new Long[size];
 
-        List<Double> listOfArrays = generateList(Random::nextDouble, size).stream()
+        List<Long> listOfArrays = generateList(Random::nextLong, size).stream()
                 .map(item -> ( sign.toInt() == JmllConstants.Sign.NEUTRAL.toInt() ? item : Math.abs(item) * sign.toInt() ))
                 .collect(Collectors.toList());
 
@@ -66,12 +57,12 @@ public class JmllCoreDouble extends JmllCore<Double> {
     }
 
     @Override
-    public Double[] generateArray(int size, Double min, Double max, JmllConstants.Sign sign) {
+    public Long[] generateArray(int size, Long min, Long max, JmllConstants.Sign sign) {
 
-        Supplier<Double[]> arrayCreator = () -> new Double[size];
+        Supplier<Long[]> arrayCreator = () -> new Long[size];
 
         Random rnd = new Random();
-        List<Double> generate = Stream.generate(() -> rnd.nextDouble() * ((max - min) + 1) + min)
+        List<Long> generate = Stream.generate(() -> rnd.nextLong() * ((max - min) + 1) + min)
                 .limit(size)
                 .map(item -> ( sign.toInt() == JmllConstants.Sign.NEUTRAL.toInt() ? item : Math.abs(item) * sign.toInt() ))
                 .collect(Collectors.toCollection(() -> new ArrayList<>()));
@@ -80,30 +71,17 @@ public class JmllCoreDouble extends JmllCore<Double> {
 
     }
 
-    /**
-     * https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.describe.html
-     *
-     * @param array = [4 5 8 5 6 4 9 2 4 3 6]
-     * Measures of Dispersion
-     * Minimum = 2
-     * Maximum = 9
-     * Range = 7
-     * Varience = 3.90082644628
-     * Standard Deviation = 1.9750509984
-     *
-     * @return List of statistic calculated values
-     */
     @Override
-    public HashMap<String, Number> describe(Double[] array) {
+    public HashMap<String, Number> describe(Long[] array) {
 
         HashMap<String, Number> results = new HashMap<>();
-        Double sum = Arrays.stream(array).mapToDouble(Double::doubleValue).sum();
+        Double sum = Arrays.stream(array).mapToDouble(Long::longValue).sum();
         Double mean = Double.valueOf(sum) / array.length;
         Double variance = Arrays.stream(array).map(a -> (a - mean) * ( a - mean )).reduce(0d, Double::sum) / (array.length - 1);
 
         results.put("mean", mean);
-        results.put("min", Arrays.stream(array).mapToDouble(Double::doubleValue).min().orElseThrow(NoSuchElementException::new));
-        results.put("max", Arrays.stream(array).mapToDouble(Double::doubleValue).max().orElseThrow(NoSuchElementException::new));
+        results.put("min", Arrays.stream(array).mapToDouble(Long::longValue).min().orElseThrow(NoSuchElementException::new));
+        results.put("max", Arrays.stream(array).mapToDouble(Long::longValue).max().orElseThrow(NoSuchElementException::new));
         results.put("variance", variance);
         results.put("standardDeviation", Math.sqrt(variance));
 
@@ -111,38 +89,23 @@ public class JmllCoreDouble extends JmllCore<Double> {
 
     }
 
-    /**
-     * Generate a Matrix [{@rows} x {@colums}] of doubles
-     *
-     * @param rows number of rows
-     * @param columns number columns
-     * @return a matrix with random value
-     */
     @Override
-    public Double[][] generateMatrix(int rows, int columns) {
+    public Long[][] generateMatrix(int rows, int columns) {
 
-        Double[][] matrix = new Double[rows][columns];
+        Long[][] matrix = new Long[rows][columns];
 
         for ( int index = 0; index < rows; index++ ) {
-            matrix[index] = generateArray(Random::nextDouble, () -> new Double[columns], columns);
+            matrix[index] = generateArray(Random::nextLong, () -> new Long[columns], columns);
         }
 
         return matrix;
 
     }
 
-    /**
-     * Generate a Matrix [{@rows} x {@colums}] of {@sign} doubles
-     *
-     * @param rows
-     * @param columns
-     * @param sign
-     * @return
-     */
     @Override
-    public Double[][] generateMatrix(int rows, int columns, JmllConstants.Sign sign) {
+    public Long[][] generateMatrix(int rows, int columns, JmllConstants.Sign sign) {
 
-        Double[][] matrix = new Double[rows][columns];
+        Long[][] matrix = new Long[rows][columns];
 
         for ( int index = 0; index < rows; index++ ) {
             matrix[index] = generateArray(columns, sign);
@@ -152,20 +115,10 @@ public class JmllCoreDouble extends JmllCore<Double> {
 
     }
 
-    /**
-     * Generate a Matrix [{@rows} x {@colums}] of {@sign} doubles between {@min} and {@max}
-     *
-     * @param rows
-     * @param columns
-     * @param sign
-     * @param min
-     * @param max
-     * @return
-     */
     @Override
-    public Double[][] generateMatrix(int rows, int columns, JmllConstants.Sign sign, Double min, Double max) {
+    public Long[][] generateMatrix(int rows, int columns, JmllConstants.Sign sign, Long min, Long max) {
 
-        Double[][] matrix = new Double[rows][columns];
+        Long[][] matrix = new Long[rows][columns];
 
         for ( int index = 0; index < rows; index++ ) {
             matrix[index] = generateArray(columns, min, max, sign);
@@ -175,28 +128,14 @@ public class JmllCoreDouble extends JmllCore<Double> {
 
     }
 
-    /**
-     * Prettify an array
-     *
-     * @param array of Doubles
-     * @return a string that represents the array
-     */
     @Override
-    public String prettify(Double[] array) {
-
+    public String prettify(Long[] array) {
         StringBuilder sb = new StringBuilder().append("\n");
         return Arrays.asList(array).stream().map(String::valueOf).collect(Collectors.joining("\t"));
-
     }
 
-    /**
-     * Prettify a matrix
-     *
-     * @param matrix of array
-     * @return a string that represents the matrix
-     */
     @Override
-    public String prettify(Double[][] matrix) {
+    public String prettify(Long[][] matrix) {
 
         StringBuilder sb = new StringBuilder().append("\n");
 
